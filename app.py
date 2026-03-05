@@ -34,17 +34,19 @@ def check_guess(guess, secret):
         return "Win", "🎉 Correct!"
 
     try:
+        # switched the go higher & go lower messages
         if guess > secret:
-            return "Too High", "📈 Go HIGHER!"
+            return "Too High", "📉 Go LOWER!"
         else:
-            return "Too Low", "📉 Go LOWER!"
+            return "Too Low", "📈 Go HIGHER!"
     except TypeError:
         g = str(guess)
         if g == secret:
             return "Win", "🎉 Correct!"
         if g > secret:
-            return "Too High", "📈 Go HIGHER!"
-        return "Too Low", "📉 Go LOWER!"
+            # switched the go higher & go lower messages
+            return "Too High", "📉 Go LOWER!"
+        return "Too Low", "📈 Go HIGHER!"
 
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
@@ -55,14 +57,17 @@ def update_score(current_score: int, outcome: str, attempt_number: int):
         return current_score + points
 
     if outcome == "Too High":
-        if attempt_number % 2 == 0:
-            return current_score + 5
+        # ERROR
+        # #if attempt_number % 2 == 0: 
+        #    return current_score + 5 
         return current_score - 5
 
     if outcome == "Too Low":
         return current_score - 5
 
     return current_score
+
+# page text setup
 
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
 
@@ -93,7 +98,8 @@ if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 1
+    # ERROR: was orignally set to 1 -> changed to 0
+    st.session_state.attempts = 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -134,6 +140,8 @@ with col3:
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
+    # added code to reset status
+    st.session_state.status = "playing"
     st.success("New game started.")
     st.rerun()
 
@@ -155,10 +163,14 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
-        if st.session_state.attempts % 2 == 0:
-            secret = str(st.session_state.secret)
-        else:
-            secret = st.session_state.secret
+        # ERROR
+        # shouldn't cast int value to str
+        #if st.session_state.attempts % 2 == 0:
+        #    secret = str(st.session_state.secret)
+        #else:
+        #    secret = st.session_state.secret
+
+        secret = st.session_state.secret
 
         outcome, message = check_guess(guess_int, secret)
 
@@ -179,7 +191,9 @@ if submit:
                 f"Final score: {st.session_state.score}"
             )
         else:
-            if st.session_state.attempts >= attempt_limit:
+            # ERROR
+            # was >= instead of > ; basically gave player one less attempt than intended
+            if st.session_state.attempts > attempt_limit:
                 st.session_state.status = "lost"
                 st.error(
                     f"Out of attempts! "
