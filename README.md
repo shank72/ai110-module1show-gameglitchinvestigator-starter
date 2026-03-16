@@ -25,13 +25,15 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [ To be a guessing game with varying levels of difficulty.] Describe the game's purpose.
+- [ One error was the hints: when the number was higher than the guess, it would tell the user to go higher & if the humber was lower than the guess, it would tell the user to go lower.
+
+Another error was when I finished my current round of the game, the new game button did not do anything, so I needed to refresh the page to play again.] Detail which bugs you found.
+- [ For the hints, I just switched the hint messages. To fix the new game error, I added code that set "session_state.status" to playing. ] Explain what fixes you applied.
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+- [![winning game screenshot](image.png) ] [Insert a screenshot of your fixed, winning game here]
 
 ## 🚀 Stretch Features
 
